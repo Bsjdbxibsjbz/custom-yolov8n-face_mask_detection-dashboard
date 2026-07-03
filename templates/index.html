@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaskGuard — Analytics Platform</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ════════════════════════════════════════════ -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="14" cy="14" r="13" stroke="var(--accent)" stroke-width="2"/>
+          <path d="M8 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="14" cy="17" r="3" fill="var(--accent)"/>
+        </svg>
+        <span class="logo__text">MaskGuard</span>
+      </div>
+    </div>
+
+    <div class="topbar__center">
+      <div class="status-pill" id="statusPill">
+        <span class="status-dot"></span>
+        <span id="statusLabel">Connecting…</span>
+      </div>
+    </div>
+
+    <div class="topbar__right">
+      <span class="clock" id="clock">--:--:--</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════ -->
+  <main class="layout">
+
+    <!-- ── Left column ─────────────────────── -->
+    <aside class="sidebar">
+
+      <!-- Current Session KPIs -->
+      <section class="panel" aria-label="Current session">
+        <div class="panel__header">
+          <span class="panel__eyebrow">Live</span>
+          <h2 class="panel__title">Current Session</h2>
+        </div>
+
+        <div class="kpi-grid">
+
+          <div class="kpi-card kpi--person" data-key="person">
+            <div class="kpi-card__icon">
+              <!-- person icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="7" r="4"/><path d="M5.5 21a9 9 0 0 1 13 0"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">Person</span>
+              <span class="kpi-card__value" id="stat-person">—</span>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi--clear" data-key="clear_face">
+            <div class="kpi-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/><path d="M9 9h.01M15 9h.01M8.5 14.5s1.5 2 3.5 2 3.5-2 3.5-2"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">Clear Face</span>
+              <span class="kpi-card__value" id="stat-clear_face">—</span>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi--head" data-key="head">
+            <div class="kpi-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3C7.029 3 3 7.029 3 12c0 2.4.903 4.59 2.383 6.245L6 21h12l.617-2.755A8.966 8.966 0 0 0 21 12c0-4.971-4.029-9-9-9z"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">Head</span>
+              <span class="kpi-card__value" id="stat-head">—</span>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi--masked" data-key="masked_face">
+            <div class="kpi-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 9a7 7 0 0 1 14 0v2a7 7 0 0 1-14 0V9z"/><path d="M5 11h14"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">Masked Face</span>
+              <span class="kpi-card__value" id="stat-masked_face">—</span>
+            </div>
+          </div>
+
+          <div class="kpi-card kpi--unsure" data-key="not_sure">
+            <div class="kpi-card__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="17" r=".5" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="kpi-card__body">
+              <span class="kpi-card__label">Not Sure</span>
+              <span class="kpi-card__value" id="stat-not_sure">—</span>
+            </div>
+          </div>
+
+        </div><!-- /kpi-grid -->
+
+        <!-- Compliance meter -->
+        <div class="compliance-block">
+          <div class="compliance-block__header">
+            <span class="compliance-block__label">Mask Compliance</span>
+            <span class="compliance-block__value" id="stat-compliance">—</span>
+          </div>
+          <div class="compliance-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="compliance-bar__fill" id="complianceBar"></div>
+          </div>
+        </div>
+
+      </section><!-- /current session -->
+
+      <!-- Previous Session -->
+      <section class="panel panel--prev" aria-label="Previous session">
+        <div class="panel__header">
+          <span class="panel__eyebrow">History</span>
+          <h2 class="panel__title">Previous Session</h2>
+        </div>
+
+        <div id="prevContent">
+          <p class="prev-empty">No previous session recorded.</p>
+        </div>
+
+      </section>
+
+    </aside>
+
+    <!-- ── Right column: live feed ──────────── -->
+    <section class="feed-panel" aria-label="Live detection feed">
+      <div class="panel__header">
+        <span class="panel__eyebrow">Stream</span>
+        <h2 class="panel__title">Live Detection Feed</h2>
+        <div class="feed-badge" id="feedBadge">
+          <span class="feed-badge__dot"></span>
+          <span>LIVE</span>
+        </div>
+      </div>
+
+      <div class="feed-wrapper">
+        <canvas class="feed-img" id="feedImg"></canvas>
+        <div class="feed-overlay" id="feedOverlay">
+          <div class="feed-overlay__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M15 10l4.553-2.277A1 1 0 0 1 21 8.677V15.323a1 1 0 0 1-1.447.9L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/>
+            </svg>
+          </div>
+          <p>Connecting to detector…</p>
+          <p class="feed-overlay__sub">Make sure <code>uvicorn api:app</code> is running</p>
+        </div>
+      </div>
+
+      <!-- Quick legend -->
+      <div class="legend">
+        <div class="legend__item"><span class="legend__swatch" style="background:#c8c8c8"></span>Person</div>
+        <div class="legend__item"><span class="legend__swatch" style="background:#ffa500"></span>Clear Face</div>
+        <div class="legend__item"><span class="legend__swatch" style="background:#ffff00"></span>Head</div>
+        <div class="legend__item"><span class="legend__swatch" style="background:#00dc50"></span>Masked Face</div>
+        <div class="legend__item"><span class="legend__swatch" style="background:#5050ff"></span>Not Sure</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
