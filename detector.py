@@ -14,7 +14,7 @@ torch.serialization.add_safe_globals([DetectionModel])
 
 from database import create_database, save_session
 
-MODEL_PATH = "/home/shahid/work/mask_detection/model_training_environment/runs/detect/runs/train/mask_project/jun_4_data/weights/best.pt"
+MODEL_PATH = "your best.pt model path"
 
 CLASS_NAMES = {
     0: "person",
